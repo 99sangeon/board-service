@@ -15,4 +15,8 @@ public class SessionMember {
         this.email = member.getEmail();
     }
 
+    public static SessionMember of(Member member) {
+        return new SessionMember(member);
+    }
+
 }

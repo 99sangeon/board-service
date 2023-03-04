@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<nav th:fragment="navFragment(member)" >
+  <h2><a href="/">Home</a></h2>
+  <div th:if="${member == null}">
+    <a href="/login">로그인</a>
+  </div>
+  <div th:unless="${member == null}">
+    <ul>
+      <li th:text="${member.name}">이름</li>
+      <li th:text="${member.email}">이메일</li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+</head>
+<body>
+
+<nav th:replace="/nav :: navFragment(${member})"></nav>
+
+<div><h3><a href="/board/list">게시판</a></h3></div>
+
+
+
+</body>
+</html>

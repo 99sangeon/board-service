@@ -1,0 +1,40 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:replace="/nav :: navFragment(${member})"></nav>
+
+<content>
+    <table>
+        <thead>
+            <td>번호</td>
+            <td>제목</td>
+            <td>글쓴이</td>
+            <td>등록일</td>
+            <td>조회</td>
+        </thead>
+        <tr th:if="${#lists.size(boards) == 0}" colspan="5">
+           <td colspan="5">등록된 게시물이 없습니다.</td>
+        </tr>
+        <tr th:unless="${#lists.size(boards) == 0}" th:each="board : ${boards}">
+            <td th:text="${board.id}">번호</td>
+            <td th:text="${board.title}">제목</td>
+            <td th:text="${board.member}">글쓴이</td>
+            <td th:text="${board.createDate}">등록일</td>
+            <td th:text="${board.hits}">조회</td>
+        </tr>
+
+    </table>
+
+    <div>
+        <button type="button" onclick="location.href='/member/board/write'">글쓰기</button>
+    </div>
+</content>
+
+</body>
+</html>

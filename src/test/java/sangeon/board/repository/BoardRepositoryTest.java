@@ -60,11 +60,13 @@ class BoardRepositoryTest {
     }
 
     private static Member getMember() {
-        return new Member("전상언",
-                "tkd0204@naver.com",
-                "010-7307-4546",
-                new Address("창원시", "용호동 52-2", "303호"),
-                Gender.MALE);
+        return Member.builder()
+                .name("전상언")
+                .email("tkd0204@naver.com")
+                .address(new Address("경상남도", "창원시", "용호동 52-2"))
+                .gender(Gender.MALE)
+                .phoneNumber("010-7307-4546")
+                .build();
     }
 
 }

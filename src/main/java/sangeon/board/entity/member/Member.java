@@ -7,7 +7,9 @@ import sangeon.board.entity.board.Board;
 import sangeon.board.entity.board.DeleteStatus;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +21,7 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
     private String name;
+    private LocalDate birth;
     private String email;
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
@@ -35,12 +38,13 @@ public class Member {
     }
 
     @Builder
-    public Member(String name, String email,String phoneNumber,Address address,Gender gender){
+    public Member(String name, String email,String phoneNumber,Address address,Gender gender, LocalDate birth){
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.gender = gender;
+        this.birth = birth;
     }
 
 }
