@@ -14,9 +14,6 @@ public class HomeController {
     @RequestMapping("/")
     public String home(HttpServletRequest request, Model model){
 
-        HttpSession session = request.getSession();
-        SessionMember member = (SessionMember) session.getAttribute("member");
-        model.addAttribute("member", member);
         return "index";
     }
 

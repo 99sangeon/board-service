@@ -3,8 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
+
+<nav th:replace="/nav :: navFragment(${member})"></nav>
+
+<content>
+    <form th:action th:object="${board}" method="post">
+        <div>
+            <label for="email">작성자</label>
+            <input type="text" id="email" th:field="${member.email}" readonly>
+        </div>
+
+        <div>
+            <label for="title" >제목</label>
+            <input type="text" id="title" th:field="*{title}"
+                   th:errorclass="field-error"
+                   placeholder="제목을 입력하세요.">
+            <div class="field-error" th:errors="*{title}">제목 오류</div>
+        </div>
+
+        <div>
+            <label for="content" >내용</label>
+            <input type="text" id="content" th:field="*{content}"
+                   th:errorclass="field-error"
+                   placeholder="내용을 입력하세요.">
+            <div class="field-error" th:errors="*{content}">내용 오류</div>
+        </div>
+
+        <div>
+            <button type="submit">게시글 등록</button>
+        </div>
+    </form>
+
+
+</content>
 
 </body>
 </html>
