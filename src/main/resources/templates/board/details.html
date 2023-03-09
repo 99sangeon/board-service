@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 
     <script th:inline="javascript">
         function deleteTask(id) {
@@ -49,7 +50,7 @@
             </tr>
             <tr>
                 <td>작성일</td>
-                <td th:text="${board.createDate}"></td>
+                <td th:text="${{board.createDate}}"></td>
             </tr>
             <tr>
                 <td>조회수</td>

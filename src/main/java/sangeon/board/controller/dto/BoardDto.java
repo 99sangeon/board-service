@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 import sangeon.board.entity.board.Board;
 
 import javax.validation.constraints.NotEmpty;
@@ -22,6 +23,7 @@ public class BoardDto {
     @Length(max = 30, message = "제목은 30글자 이내로 작성가능합니다.")
     private String title;
     private String content;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
     private int hits;
 

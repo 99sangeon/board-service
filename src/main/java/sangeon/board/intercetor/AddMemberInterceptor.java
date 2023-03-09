@@ -19,6 +19,10 @@ public class AddMemberInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         SessionMember member = (SessionMember) session.getAttribute("member");
 
+        if(modelAndView == null) {
+            modelAndView = new ModelAndView();
+        }
+
         modelAndView.addObject("member", member);
 
     }

@@ -66,14 +66,19 @@ public class BoardController {
     @PostMapping("/member/board/{id}/edit")
     public String edit(HttpServletRequest request,
                        @PathVariable Long id,
-                       @Validated @ModelAttribute("board") BoardUpdateDto boardUpdateDto,
+                       @Validated @ModelAttribute("board") BoardDto boardDto,
                        BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()){
             return "/board/edit";
         }
 
-        boardService.update(request.getSession(), id, boardUpdateDto);
+
+        boardService.update(request.getSession(), id, BoardUpdateDto
+                                                            .builder()
+                                                            .title(boardDto.getTitle())
+                                                            .content(boardDto.getContent())
+                                                            .build());
 
         return "redirect:/board/" + id + "/details";
     }

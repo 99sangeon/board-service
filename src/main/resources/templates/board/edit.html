@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 
 </head>
 <body>
@@ -15,8 +16,8 @@
         <p>권한이 없거나 게시글이 존재하지 않습니다..</p>
     </div>
 
-    <form th:action th:object="${board}" method="post">
-        <div th:unless="${board.id == null}">
+    <form th:unless="${board.id == null}" th:action th:object="${board}" method="post">
+        <div>
 
             <table>
                 <tr>
@@ -27,35 +28,31 @@
                     <td><label for="title" >제목</label></td>
                     <td>
                         <div>
-                            <input type="text" id="title" th:field="*{title}"
-                                   th:errorclass="field-error"
-                                   placeholder="제목을 입력하세요.">
+                            <input type="text" id="title" th:field="*{title}" th:errorclass="field-error" placeholder="제목을 입력하세요.">
                             <div class="field-error" th:errors="*{title}">제목 오류</div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>작성자</td>
-                    <td th:text="${board.email}"></td>
+                    <td><input class="no-border" type="text" th:field="*{email}" readonly></td>
                 </tr>
                 <tr>
                     <td><label for="content" >내용</label></td>
                     <td>
                         <div>
-                            <textarea id="content" th:field="*{content}"
-                                      th:errorclass="field-error"
-                                      placeholder="내용을 입력하세요."></textarea>
+                            <textarea id="content" th:field="*{content}" th:errorclass="field-error" placeholder="내용을 입력하세요."></textarea>
                             <div class="field-error" th:errors="*{content}">내용 오류</div>
                         </div>
                     </td>
                 </tr>
                 <tr>
                     <td>작성일</td>
-                    <td th:text="${board.createDate}"></td>
+                    <td> <input class="no-border" type="text" th:field="*{createDate}" readonly></td>
                 </tr>
                 <tr>
                     <td>조회수</td>
-                    <td th:text="${board.hits}"></td>
+                    <td><input class="no-border" type="text" th:field="*{hits}" readonly></td>
                 </tr>
             </table>
         </div>
