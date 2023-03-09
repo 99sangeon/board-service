@@ -1,11 +1,10 @@
-package sangeon.board.Service.dto;
+package sangeon.board.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
-import sangeon.board.controller.dto.BoardViewDto;
 import sangeon.board.entity.board.Board;
 
 import javax.validation.constraints.NotEmpty;

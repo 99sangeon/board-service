@@ -9,12 +9,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sangeon.board.OAuth.SessionMember;
 import sangeon.board.Service.board.BoardService;
-import sangeon.board.Service.dto.BoardDto;
-import sangeon.board.controller.dto.BoardViewDto;
+import sangeon.board.controller.dto.BoardDto;
+import sangeon.board.controller.dto.BoardUpdateDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +23,6 @@ public class BoardController {
 
     @RequestMapping("/board/list")
     public String list(Model model){
-
         model.addAttribute("boards", boardService.getBoardList());
         return "/board/list";
     }
@@ -36,48 +34,63 @@ public class BoardController {
     }
 
     @PostMapping("/member/board/write")
-    public String write(@Validated @ModelAttribute("board") BoardDto boardDto, BindingResult bindingResult){
+    public String write(HttpServletRequest request,
+                        @Validated @ModelAttribute("board") BoardDto boardDto,
+                        BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             return "/board/write";
         }
+        Long id = boardService.saveBoard(request.getSession(), boardDto);
 
-        boardService.saveBoard(boardDto);
-        return "redirect:/board/list";
+        return "redirect:/board/" + id + "/details";
     }
 
     @GetMapping ("/member/board/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model, HttpServletRequest request, HttpServletResponse response){
-        BoardViewDto details = boardService.getPost(id);
+    public String editForm(@PathVariable Long id,
+                           Model model,
+                           HttpServletRequest request){
 
+        BoardDto boardDto = boardService.getBoard(id);
+        SessionMember member = (SessionMember) request.getSession().getAttribute("member");
 
-        model.addAttribute("board", details);
+        if(!member.getEmail().equals(boardDto.getEmail())){
+            throw new AccessDeniedException("해당 게시글에 대한 권한이 없습니다.");
+        }
+
+        model.addAttribute("board", boardDto);
 
         return "/board/edit";
     }
 
     @PostMapping("/member/board/{id}/edit")
-    public String edit(@Validated @ModelAttribute("board") BoardDto boardFormDto, BindingResult bindingResult){
+    public String edit(HttpServletRequest request,
+                       @PathVariable Long id,
+                       @Validated @ModelAttribute("board") BoardUpdateDto boardUpdateDto,
+                       BindingResult bindingResult) {
+
         if(bindingResult.hasErrors()){
             return "/board/edit";
         }
 
-        return "/board/details";
+        boardService.update(request.getSession(), id, boardUpdateDto);
+
+        return "redirect:/board/" + id + "/details";
     }
 
 
     @RequestMapping("/board/{id}/details")
     public String details(@PathVariable Long id, Model model) {
 
-        BoardViewDto board = boardService.getPost(id);
-        model.addAttribute("board", board);
+        model.addAttribute("board", boardService.getBoard(id));
+
         return "/board/details";
     }
 
     @GetMapping("/member/board/{id}/delete")
-    public String delete(@PathVariable Long id, HttpServletRequest request) {
+    public String delete(HttpServletRequest request,@PathVariable Long id) {
 
-        Boolean delete = boardService.deletePost(request, id);
+        boardService.delete(request.getSession(), id);
 
         return "redirect:/board/list";
     }
