@@ -1,9 +1,10 @@
 package sangeon.board.Service.board;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import sangeon.board.OAuth.SessionMember;
-import sangeon.board.Service.dto.BoardFormDto;
+import sangeon.board.Service.dto.BoardDto;
 import sangeon.board.controller.dto.BoardViewDto;
 import sangeon.board.entity.board.Board;
 import sangeon.board.entity.member.Member;
@@ -26,69 +27,16 @@ public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
 
-    @Override
-    public List<BoardViewDto> getBoardList() {
-        List<BoardViewDto> boards = new ArrayList<>();
 
-        for(Board board : boardRepository.findAll()){
-            boards.add(BoardViewDto.of(board));
-        }
-        return boards;
-    }
-
-    @Override
-    public BoardViewDto getDetails(Long id) {
-        Optional<Board> board = boardRepository.findById(id);
-
-        if(board.isEmpty()){
-            return BoardViewDto.builder().build();
-        }
-
-        int hits = board.get().getHits();
-        board.get().setHits(hits + 1);
-
-        return BoardViewDto.of(board.get());
-
-    }
-
-
-    @Override
-    public void writeBoard(BoardFormDto boardFormDto) {
-        Member member = memberRepository.findOneByEmail(boardFormDto.getEmail()).get();
-        Board board = boardFormDto.toEntity();
-        board.setMember(member);
-        boardRepository.save(board);
-    }
-
-    @Override
-    public Boolean deleteBoard(HttpServletRequest request, Long id) {
-        Optional<Board> board = boardRepository.findById(id);
-
-        if(!checkingAccess(request, board)){
-            return false; //삭제 실패
-        };
-
-        boardRepository.delete(board.get());
-
-        return true; //삭제 성공;
-    }
-
-    private Boolean checkingAccess(HttpServletRequest request, Optional<Board> board) {
+    private Boolean isSessionMemberEquBoardMember(HttpServletRequest request, BoardViewDto board){
         HttpSession session = request.getSession();
         SessionMember member = (SessionMember) session.getAttribute("member");
 
-        if(board.isEmpty()) {
-            return false;
-        }
-        if(member == null) {
-            return false;
-        }
-
-
-        if(!board.get().getMember().getEmail().equals(member.getEmail())){
-            return false;
+        if(member == null || !member.getEmail().equals(board.getEmail())) {
+            throw new AccessDeniedException("해당 게시글에 대한 권한이 없습니다!");
         }
 
         return true;
     }
+
 }

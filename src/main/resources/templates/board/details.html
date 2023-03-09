@@ -13,9 +13,9 @@
             }
         }
 
-        function updateTask(id) {
+        function editTask(id) {
             if (confirm("해당 게시글을 수정하시겠습니까?") == true) {    //확인
-                location.href = "/member/board/" + id + "/update";
+                location.href = "/member/board/" + id + "/edit";
 
             }
         }
@@ -58,7 +58,7 @@
         </table>
     </div>
 
-        <button type="button" th:onclick="|location.href='@{/member/board/{id}/update(id=${board.id})}'|">수정</button>
+        <button type="button" th:onclick="editTask([[${board.id}]])">수정</button>
         <button type="button" th:onclick="deleteTask([[${board.id}]])">삭제</button>
     </div>
 </content>
