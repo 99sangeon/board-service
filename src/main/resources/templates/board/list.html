@@ -5,6 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+
+
 </head>
 <body>
 <nav th:replace="/nav :: navFragment(${member})"></nav>
@@ -23,7 +25,7 @@
         </tr>
         <tr th:unless="${#lists.size(boards) == 0}" th:each="board : ${boards}">
             <td th:text="${board.id}">번호</td>
-            <td th:text="${board.title}">제목</td>
+            <td><a th:text="${board.title}" th:href="@{/board/{id}/details(id=${board.id})}">제목</a></td>
             <td th:text="${board.email}">글쓴이</td>
             <td th:text="${board.createDate}">등록일</td>
             <td th:text="${board.hits}">조회1</td>
@@ -38,3 +40,4 @@
 
 </body>
 </html>
+

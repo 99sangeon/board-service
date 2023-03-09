@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script th:inline="javascript">
+        function deleteTask(id) {
+            if (confirm("해당 게시글을 삭제하시겠습니까??") == true) {    //확인
+                location.href = "/member/board/" + id + "/delete";
+            }
+        }
+
+        function updateTask(id) {
+            if (confirm("해당 게시글을 수정하시겠습니까?") == true) {    //확인
+                location.href = "/member/board/" + id + "/update";
+
+            }
+        }
+    </script>
+
+</head>
+<body>
+<nav th:replace="/nav :: navFragment(${member})"></nav>
+
+<content>
+    <div th:if="${board.id == null}" colspan="5">
+        <p>권한이 없거나 게시글이 존재하지 않습니다..</p>
+    </div>
+    <div th:unless="${board.id == null}">
+        <table>
+            <tr>
+                <td>글번호</td>
+                <td th:text="${board.id}"></td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td th:text="${board.title}"></td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td th:text="${board.email}"></td>
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td th:text="${board.content}"></td>
+            </tr>
+            <tr>
+                <td>작성일</td>
+                <td th:text="${board.createDate}"></td>
+            </tr>
+            <tr>
+                <td>조회수</td>
+                <td th:text="${board.hits}"></td>
+            </tr>
+        </table>
+    </div>
+
+        <button type="button" th:onclick="|location.href='@{/member/board/{id}/update(id=${board.id})}'|">수정</button>
+        <button type="button" th:onclick="deleteTask([[${board.id}]])">삭제</button>
+    </div>
+</content>
+
+</body>
+</html>

@@ -5,14 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import sangeon.board.Service.board.BoardService;
 import sangeon.board.Service.dto.BoardFormDto;
-import sangeon.board.controller.dto.BoardListDto;
+import sangeon.board.controller.dto.BoardViewDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,7 +22,7 @@ public class BoardController {
     @RequestMapping("/board/list")
     public String list(Model model){
 
-        List<BoardListDto> boards = boardService.getBoardList();
+        List<BoardViewDto> boards = boardService.getBoardList();
         model.addAttribute("boards", boards);
 
         return "/board/list";
@@ -44,6 +42,26 @@ public class BoardController {
         }
 
         boardService.writeBoard(boardFormDto);
+        return "redirect:/board/list";
+    }
+
+    @RequestMapping("/board/{id}/details")
+    public String details(@PathVariable Long id, Model model) {
+
+        BoardViewDto board = boardService.getDetails(id);
+        model.addAttribute("board", board);
+        return "/board/details";
+    }
+
+    @GetMapping("/member/board/{id}/delete")
+    public String delete(@PathVariable Long id, HttpServletRequest request) {
+
+        Boolean delete = boardService.deleteBoard(request, id);
+
+        if(delete == false) {
+
+        }
+
         return "redirect:/board/list";
     }
 }

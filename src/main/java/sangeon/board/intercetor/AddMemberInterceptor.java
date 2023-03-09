@@ -20,10 +20,13 @@ public class AddMemberInterceptor implements HandlerInterceptor {
         SessionMember member = (SessionMember) session.getAttribute("member");
 
         modelAndView.addObject("member", member);
+
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
     }
+
+
 }
