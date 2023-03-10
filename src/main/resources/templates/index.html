@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>홈화면</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 
 <nav th:replace="/nav :: navFragment(${member})"></nav>
 
-<div><h3><a href="/board/list">게시판</a></h3></div>
+<main class="center"><h3><a href="/board/list">게시판</a></h3></main>
 
 
 

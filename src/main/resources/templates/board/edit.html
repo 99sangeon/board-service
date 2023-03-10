@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,13 +12,13 @@
 <body>
 <nav th:replace="/nav :: navFragment(${member})"></nav>
 
-<content>
-    <div th:if="${board.id == null}" colspan="5">
+<main>
+    <div th:if="${board.id == null}" colspan="5" class="center">
         <p>권한이 없거나 게시글이 존재하지 않습니다..</p>
     </div>
 
     <form th:unless="${board.id == null}" th:action th:object="${board}" method="post">
-        <div>
+        <div class="center">
 
             <table>
                 <tr>
@@ -57,11 +58,11 @@
             </table>
         </div>
 
-        <div>
+        <div class="center">
             <button type="submit">게시글 수정</button>
         </div>
     </form>
-</content>
+</main>
 
 </body>
 </html>

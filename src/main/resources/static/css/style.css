@@ -13,3 +13,49 @@ table td, table th{
     padding: 10px;
     text-align: center;
 }
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+.pagination li {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination li.active {
+    font-weight: bold;
+}
+
+.pagination li a, .pagination li span {
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    border-radius: 5px;
+}
+
+.pagination li a:hover, .pagination li span:hover {
+    background-color: #eee;
+}
+
+.pagination li.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+
+.center{
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-top: 1%;
+    margin-bottom: 1%;
+
+}

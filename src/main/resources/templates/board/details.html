@@ -26,11 +26,11 @@
 <body>
 <nav th:replace="/nav :: navFragment(${member})"></nav>
 
-<content>
-    <div th:if="${board.id == null}" colspan="5">
+<main>
+    <div  class="center" th:if="${board.id == null}" colspan="5">
         <p>권한이 없거나 게시글이 존재하지 않습니다..</p>
     </div>
-    <div th:unless="${board.id == null}">
+    <div  class="center" th:unless="${board.id == null}">
         <table>
             <tr>
                 <td>글번호</td>
@@ -59,10 +59,11 @@
         </table>
     </div>
 
-        <button type="button" th:onclick="editTask([[${board.id}]])">수정</button>
-        <button type="button" th:onclick="deleteTask([[${board.id}]])">삭제</button>
+    <div class="center">
+        <div><button type="button" th:onclick="editTask([[${board.id}]])">수정</button></div>
+        <div><button type="button" th:onclick="deleteTask([[${board.id}]])">삭제</button></div>
     </div>
-</content>
+</main>
 
 </body>
 </html>

@@ -20,14 +20,14 @@
 
 <nav th:replace="/nav :: navFragment(${member})"></nav>
 
-<content>
+<main>
     <form th:action th:object="${board}" method="post">
-        <div>
+        <div class="center">
             <label for="email">작성자</label>
             <input type="text" id="email" th:field="${member.email}" readonly>
         </div>
 
-        <div>
+        <div class="center">
             <label for="title" >제목</label>
             <input type="text" id="title" th:field="*{title}"
                    th:errorclass="field-error"
@@ -35,7 +35,7 @@
             <div class="field-error" th:errors="*{title}">제목 오류</div>
         </div>
 
-        <div>
+        <div class="center">
             <label for="content" >내용</label>
             <textarea id="content" th:field="*{content}"
                    th:errorclass="field-error"
@@ -43,13 +43,13 @@
             <div class="field-error" th:errors="*{content}">내용 오류</div>
         </div>
 
-        <div>
+        <div class="center">
             <button type="submit">게시글 등록</button>
         </div>
     </form>
 
 
-</content>
+</main>
 
 </body>
 </html>

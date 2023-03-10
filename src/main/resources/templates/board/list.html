@@ -11,33 +11,62 @@
 <body>
 <nav th:replace="/nav :: navFragment(${member})"></nav>
 
-<content>
-    <table>
-        <thead>
+<main>
+
+    <div class="center">
+        <table>
+            <thead>
             <td>번호</td>
             <td>제목</td>
             <td>글쓴이</td>
             <td>등록일</td>
             <td>조회</td>
-        </thead>
-        <tr th:if="${#lists.size(pagingResponse.list) == 0}" colspan="5">
-           <td colspan="5">등록된 게시물이 없습니다.</td>
-        </tr>
-        <tr th:unless="${#lists.size(pagingResponse.list) == 0}" th:each="board : ${pagingResponse.list}">
-            <td th:text="${board.id}">번호</td>
-            <td><a th:text="${board.title}" th:href="@{/board/{id}/details(id=${board.id})}">제목</a></td>
-            <td th:text="${board.email}">글쓴이</td>
-            <td th:text="${{board.createDate}}"></td>
-            <td th:text="${board.hits}">조회1</td>
-        </tr>
+            </thead>
+            <tr th:if="${#lists.size(pagingResponse.list) == 0}" colspan="5">
+                <td colspan="5">등록된 게시물이 없습니다.</td>
+            </tr>
+            <tr th:unless="${#lists.size(pagingResponse.list) == 0}" th:each="board : ${pagingResponse.list}">
+                <td th:text="${board.id}">번호</td>
+                <td><a th:text="${board.title}" th:href="@{/board/{id}/details(id=${board.id})}">제목</a></td>
+                <td th:text="${board.email}">글쓴이</td>
+                <td th:text="${{board.createDate}}"></td>
+                <td th:text="${board.hits}">조회1</td>
+            </tr>
 
-    </table>
+        </table>
+    </div>
 
-    <div>
+    <div class="center">
         <button type="button" onclick="location.href='/member/board/write'">글쓰기</button>
     </div>
-</content>
 
+    <nav th:if="${#lists.size(pagingResponse.list) != 0}">
+        <ul class="pagination" th:object="${pagingResponse.pagination}">
+            <li th:if="*{existPrevPage}">
+                <a th:href="@{/board/list(page=*{startPage - 1},recordSize=10, searchType=${params.searchType}, keyword=${params.keyword})}">이전</a>
+            </li>
+            <li th:each="i : *{#numbers.sequence(startPage, endPage)}" th:class="${i == params.page} ? 'active' : ''">
+                <a th:href="@{/board/list(page=${i},recordSize=10, searchType=${params.searchType}, keyword=${params.keyword})}" th:text="${i}"></a>
+            </li>
+            <li th:if="*{existNextPage}">
+                <a th:href="@{/board/list(page=*{endPage + 1},recordSize=10, searchType=${params.searchType}, keyword=${params.keyword})}">다음</a>
+            </li>
+        </ul>
+    </nav>
+
+    <form class="center" th:action="@{/board/list}" method="get">
+        <select th:field="${params.searchType}">
+            <option value="">전체</option>
+            <option value="title" th:selected="제목">제목</option>
+            <option value="content" th:selected="내용">내용</option>
+            <option value="email" th:selected="작성자">작성자</option>
+        </select>
+
+        <input type="text" th:field="${params.keyword}">
+
+        <button type="submit">검색</button>
+    </form>
+</main>
 </body>
 </html>
 

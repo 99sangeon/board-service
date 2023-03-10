@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 import sangeon.board.OAuth.SessionMember;
 import sangeon.board.controller.dto.*;
 import sangeon.board.entity.board.Board;
+import sangeon.board.entity.member.Address;
+import sangeon.board.entity.member.Gender;
+import sangeon.board.entity.member.Member;
 import sangeon.board.repository.BoardCustomRepository;
 import sangeon.board.repository.BoardRepository;
 import sangeon.board.repository.MemberRepository;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,12 +37,12 @@ public class BoardServiceImpl implements BoardService{
     public PagingResponse<BoardDto> getBoardList(SearchDto param) {
 
         Long count = boardCustomRepository.recordCount(param);
+        System.out.println("++++++++++++++++++++++++++++++++++++++++ "+count +" ++++++++++++++++++++++++++++++++++++++++");
         if(count < 1) {
             return new PagingResponse<>(Collections.emptyList(), null);
         }
 
         Pagination pagination = new Pagination(count, param);
-        param.setPagination(pagination);
 
         List<BoardDto> boardDtos = new ArrayList<>();
         for (Board board : boardCustomRepository.findAll(param)) {
