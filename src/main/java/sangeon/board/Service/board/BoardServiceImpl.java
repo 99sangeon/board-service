@@ -5,15 +5,16 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import sangeon.board.OAuth.SessionMember;
-import sangeon.board.controller.dto.BoardDto;
-import sangeon.board.controller.dto.BoardUpdateDto;
+import sangeon.board.controller.dto.*;
 import sangeon.board.entity.board.Board;
+import sangeon.board.repository.BoardCustomRepository;
 import sangeon.board.repository.BoardRepository;
 import sangeon.board.repository.MemberRepository;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,19 +25,27 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService{
 
     private final BoardRepository boardRepository;
+    private final BoardCustomRepository boardCustomRepository;
     private final MemberRepository memberRepository;
 
 
     @Override
-    public List<BoardDto> getBoardList() {
+    public PagingResponse<BoardDto> getBoardList(SearchDto param) {
+
+        Long count = boardCustomRepository.recordCount(param);
+        if(count < 1) {
+            return new PagingResponse<>(Collections.emptyList(), null);
+        }
+
+        Pagination pagination = new Pagination(count, param);
+        param.setPagination(pagination);
 
         List<BoardDto> boardDtos = new ArrayList<>();
-
-        for (Board board : boardRepository.findAll()) {
+        for (Board board : boardCustomRepository.findAll(param)) {
             boardDtos.add(BoardDto.of(board));
         }
 
-        return boardDtos;
+        return new PagingResponse<>(boardDtos, pagination);
     }
 
     @Override

@@ -11,6 +11,7 @@ import sangeon.board.OAuth.SessionMember;
 import sangeon.board.Service.board.BoardService;
 import sangeon.board.controller.dto.BoardDto;
 import sangeon.board.controller.dto.BoardUpdateDto;
+import sangeon.board.controller.dto.SearchDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,8 +23,8 @@ public class BoardController {
     private final BoardService boardService;
 
     @RequestMapping("/board/list")
-    public String list(Model model){
-        model.addAttribute("boards", boardService.getBoardList());
+    public String list(@ModelAttribute("params")SearchDto params, Model model){
+        model.addAttribute("pagingResponse", boardService.getBoardList(params));
         return "/board/list";
     }
 

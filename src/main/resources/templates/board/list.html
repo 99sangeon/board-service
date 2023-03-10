@@ -20,10 +20,10 @@
             <td>등록일</td>
             <td>조회</td>
         </thead>
-        <tr th:if="${#lists.size(boards) == 0}" colspan="5">
+        <tr th:if="${#lists.size(pagingResponse.list) == 0}" colspan="5">
            <td colspan="5">등록된 게시물이 없습니다.</td>
         </tr>
-        <tr th:unless="${#lists.size(boards) == 0}" th:each="board : ${boards}">
+        <tr th:unless="${#lists.size(pagingResponse.list) == 0}" th:each="board : ${pagingResponse.list}">
             <td th:text="${board.id}">번호</td>
             <td><a th:text="${board.title}" th:href="@{/board/{id}/details(id=${board.id})}">제목</a></td>
             <td th:text="${board.email}">글쓴이</td>
