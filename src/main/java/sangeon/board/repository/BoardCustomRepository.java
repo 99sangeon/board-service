@@ -9,4 +9,5 @@ public interface BoardCustomRepository {
 
     List<Board> findAll(SearchDto params);
     Long recordCount(SearchDto params);
+
 }

@@ -7,6 +7,7 @@ import sangeon.board.entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,6 +35,9 @@ public class Board {
     private LocalDateTime createDate = LocalDateTime.now();
 
     private LocalDateTime modifiedDate;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
 
     protected Board() {
 

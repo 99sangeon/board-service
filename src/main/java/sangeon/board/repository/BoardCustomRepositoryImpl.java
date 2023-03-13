@@ -45,6 +45,8 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository{
                 .fetchCount();
     }
 
+
+
     private BooleanExpression search(SearchDto params) {
         if(params.getSearchType() != null) {
             switch (params.getSearchType()) {
